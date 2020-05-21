@@ -17,6 +17,10 @@ router.get('/', function(req, res, next){
     res.send(JSON.stringify(indexJson))
 });
 
+// Route parameters
+router.get('/:query',(req, res)=>{
+    res.send(JSON.stringify(req.params));
+});
 
 // app.use使用中间机、插件, application/json 解析json
 router.use(bodyparser.json());

@@ -5,6 +5,9 @@ const config = require('config');
 
 const port = config.get('Configs.api.port');
 
+//is not client pg
+const isnotclient = config.get('Configs.isnotclient');
+
 //const port = 5000;
 
 // index api
@@ -24,6 +27,16 @@ app.use(logger);
 app.use('/', indexRouter);
 
 app.use('/user', userRouter);
+
+// 是否连接pa
+if (!isnotclient){
+    var queryRouter = require('./routes/query');
+
+    app.use('/query', queryRouter);
+};
+
+
+// console.log("query", query)
 
 
 app.listen(port, ()=>{
