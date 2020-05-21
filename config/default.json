@@ -1,0 +1,14 @@
+{
+    // nodejs-express api configs
+    "Configs":{
+        "dbConfig":{
+            "host": "localhost",
+            "port": 5432,
+            "dbName": "postgres"
+        },
+        "api":{
+            "port": 5000
+        }
+    }
+
+}

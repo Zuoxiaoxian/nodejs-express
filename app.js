@@ -1,7 +1,11 @@
 const express = require('express');
 
+// parse configs
+const config = require('config');
 
-const port = 5000;
+const port = config.get('Configs.api.port');
+
+//const port = 5000;
 
 // index api
 var indexRouter = require('./routes/index');
