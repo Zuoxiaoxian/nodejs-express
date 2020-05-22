@@ -16,6 +16,12 @@ const SECRET = "shhhhh";
 // authtoken 
 const { authtoken } = require('../middlewares/authtoken');
 
+
+//--------------------------
+var cookie = require('cookie');
+
+//-------------------------
+
 //
 /* index api */
 router.get('/', function(req, res, next){
@@ -25,6 +31,7 @@ router.get('/', function(req, res, next){
         name: "index",
         value:JSON.stringify(code)
     };
+
     res.send(JSON.stringify(indexJson))
 });
 
@@ -62,7 +69,8 @@ router.post('/', (req, res)=>{
         },
         SECRET
     );
-
+    // 将token存入cookie中
+    res.setHeader('Set-Cookie', cookie.serialize('token', token),{maxAge: 60}); // 60s
     if (isPswdValid){
         console.log("密码有效");
         // 
@@ -75,7 +83,9 @@ router.post('/', (req, res)=>{
 // curl -X  GET  http://localhost:5000/token -H "authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMyIsImlhdCI6MTU5MDExODQ1M30.kl5amtgqYFCDGSqOcMcgHkhcnAe3SjFGd8QvFZQcVCs"
 router.get('/token', authtoken, (req, res)=>{
     var tokendata = req.user;
+    var cookies = req.cookies;
     console.log("解密 token", tokendata);
+    console.log("cookies: ", cookies);
     return res.send('ok');
 })
 

@@ -30,6 +30,7 @@ node app.js
 > - morgan: HTTP请求记录器中间件
 > - pg: PostgreSQL客户端-具有相同API的纯JavaScript和libpq
 > - jsonwebtoken: JSON Web令牌的实现。  
+> - cookie: HTTP服务器的基本HTTP cookie解析器和序列化器。
 
 bcrypt
 
