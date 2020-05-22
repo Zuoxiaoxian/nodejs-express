@@ -19,3 +19,15 @@ node app.js
 
 > 这里面是中间件
 > logger.js, 就是日志的，这里主要是info、没有添加其他
+
+
+## dependencies 依赖
+---
+
+> - bcrypt: 哈希密码的库  
+> - config:为您的应用程序部署组织分层配置  
+> - express: Web 开发框架  
+> - morgan: HTTP请求记录器中间件
+> - pg: PostgreSQL客户端-具有相同API的纯JavaScript和libpq
+
+

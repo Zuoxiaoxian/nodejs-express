@@ -19,6 +19,8 @@ var userRouter = require('./routes/user');
 // middleware logger
 var logger = require('./middlewares/logger');
 
+
+
 const app = express();
 // add middleware
 app.use(logger); 
@@ -28,10 +30,13 @@ app.use('/', indexRouter);
 
 app.use('/user', userRouter);
 
-// 是否连接pa
+
+var morgan = require('morgan');
+app.use(morgan('combined'))
+
+// 是否连接pg
 if (!isnotclient){
     var queryRouter = require('./routes/query');
-
     app.use('/query', queryRouter);
 };
 
@@ -40,6 +45,7 @@ if (!isnotclient){
 
 
 app.listen(port, ()=>{
+
     console.log(`访问hocalhost:${port}`)
 });
 

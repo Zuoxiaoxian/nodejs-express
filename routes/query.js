@@ -9,6 +9,8 @@ const pool = new Pool(db);
 
 const express = require('express');
 var query = express();
+
+
 // Route parameters
 query.get('/:q',(req, res)=>{
     // res.send(JSON.stringify(req.params));
