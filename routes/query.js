@@ -14,6 +14,7 @@ var query = express();
 // Route parameters
 query.get('/:q',(req, res)=>{
     // res.send(JSON.stringify(req.params));
+    console.log("===== query=====");
     var q = req.params.q;
     var sql = `SELECT ${q} FROM demo`;
     pool.query(sql, (err, result)=>{

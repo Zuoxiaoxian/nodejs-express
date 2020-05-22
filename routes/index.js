@@ -8,7 +8,15 @@ const bodyparser = require('body-parser');
 // bcrypt 一个帮助您哈希密码的库。
 const bcrypt = require('bcrypt');
 
+// json web token
+const jwt = require("jsonwebtoken");
+// 密钥
+const SECRET = "shhhhh";
 
+// authtoken 
+const { authtoken } = require('../middlewares/authtoken');
+
+//
 /* index api */
 router.get('/', function(req, res, next){
     // json
@@ -21,7 +29,7 @@ router.get('/', function(req, res, next){
 });
 
 // Route parameters
-router.get('/:query',(req, res)=>{
+router.get('/params/:query',(req, res)=>{
     res.send(JSON.stringify(req.params));
 });
 
@@ -40,9 +48,35 @@ router.post('/', (req, res)=>{
     var msg = req.body;
     var password = req.body.password;
     var hash_pswd = bcrypt.hashSync(password, 10);
+    const pswd_from_db = "$2b$10$2so9VSLPy.QRW.XHIUfNvOnnowYlvdSsCM7S9gWPpT/Cdpem4dnbu";
     console.log("----hash_pswd----", hash_pswd);
+    const isPswdValid = bcrypt.compareSync(
+        password,
+        pswd_from_db
+    );
+
+    // 生成token,登录时生成 参数1: payload: string|object|buffer ,  参数2:secretOrPrivateKey:Secret密钥
+    const token = jwt.sign(
+        {
+            id: String(req.body.name)
+        },
+        SECRET
+    );
+
+    if (isPswdValid){
+        console.log("密码有效");
+        // 
+    };
     console.log(JSON.stringify(msg));
-    res.send(req.body);
+    res.send(JSON.stringify({"resBody": req.body, "token": token}));
 });
+
+// 如何使用token, 这个authtoken是中间件  authorization: Bearer token
+// curl -X  GET  http://localhost:5000/token -H "authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMyIsImlhdCI6MTU5MDExODQ1M30.kl5amtgqYFCDGSqOcMcgHkhcnAe3SjFGd8QvFZQcVCs"
+router.get('/token', authtoken, (req, res)=>{
+    var tokendata = req.user;
+    console.log("解密 token", tokendata);
+    return res.send('ok');
+})
 
 module.exports = router;
